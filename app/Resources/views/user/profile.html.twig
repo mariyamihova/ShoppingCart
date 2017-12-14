@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'profile' %}
+
+
+{% block main %}
+    {% block greeting %}<h4>Hello, {{ user.fullName }}!</h4>{% endblock %}
+
+    <div class="row">
+        <div class="well">
+            <h3 class="text-info" style="color:black">Profile details:</h3>
+            <form class="form-horizontal" action="{{ path('security_login') }}" method="post">
+                <table class="table table-responsive" >
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fullname</th>
+                        <td>{{ user.fullName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Roles</th>
+                        <td>{{ user.getRoles|join(", ") }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cash available</th>
+                        <td><strong>€{{ user.money }}</strong></td>
+                    </tr>
+                </table>
+                <hr>
+
+                <a class="btn btn-warning btn-xs" href="{{ path('user_profile_edit') }}">Edit profile</a>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+

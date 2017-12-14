@@ -1,0 +1,38 @@
+<nav class="navbar navbar-default">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">MiMWebStore</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            {% block nav_link %}
+                <li><a href="{{ path('latest_products_list') }}" class="fa fa-briefcase"> New Products</a></li>
+                <li><a href="{{ path('view_user_sales') }}" class="fa fa-briefcase"> User sales</a></li>
+                <li><a href="#">Promotions</a></li>
+            {% endblock %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if app.user %}
+                {% block navbar_user %}
+                    <li><a href="{{ path('user_profile') }}"><span class="fa fa-user"> My Profile</span></a></li>
+                    <li><a href="{{ path('user_orders') }}"><span class="fa fa-folder-open-o"> My orders</span></a></li>
+                    <li><a href="{{ path('user_cart') }}"><span class="fa fa-shopping-cart"> Cart</span></a></li>
+                    <li><a href="{{ path('security_logout') }}"><span class="fa fa-sign-out"> Logout</span></a></li>
+                {% endblock %}
+            {% else %}
+                {% block navbar_guest %}
+                    <li><a href="{{ path('security_login') }}"><span class="fa fa-sign-in"> LOGIN</span></a></li>
+                    <li><a href="{{ path('user_register') }}"><span class="fa fa-user-plus"> REGISTER</span></a>
+                    </li>
+                {% endblock %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>

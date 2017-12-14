@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-9">
+                <header>
+                    <h2 style="text-align: left">{{ product.name }}</h2>
+                </header>
+                <div class="thumbnail">
+                    <img src="{{ asset('images/'~ product.imageName ~'') }}" alt="{{ product.name }}">
+                </div>
+                <p style="text-align: justify">
+                    {{ product.description }}
+                </p>
+
+                <small>
+                    <a href="{{ path("products_by_category", {"id": product.category.getId}) }}">{{ product.category.name }}</a>
+                </small>
+                <p style="text-align: justify">
+                    In stock: {{ product.quantity }}
+                </p>
+                {% if product.seller %}
+                    <hr>
+                    <p class="bg-primary img-responsive">Seller: {{ product.seller.fullName }}</p>
+                {% endif %}
+                <footer>
+                    {% if app.user %}
+                        <form method="post" action="{{ path('user_cart_add', {'id': product.id}) }}"
+                              style="display: inline-block">
+                            <button class="btn btn-success btn-xs" type="submit"> Add to Cart
+                            </button>
+                        </form>
+                        <div class="pull-right">
+                            <a class="btn btn-default btn-xs" href="{{ path("homepage") }}">Back &raquo;</a>
+                        </div>
+                    {% else %}
+                        <div class="pull-right">
+                            <a class="btn btn-default btn-xs" href="{{ path("homepage") }}">Back &raquo;</a>
+                        </div>
+                    {% endif %}
+
+                </footer>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

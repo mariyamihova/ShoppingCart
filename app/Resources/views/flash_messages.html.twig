@@ -1,0 +1,9 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert-success" >
+        <div class="flash-{{ label }}">
+           <h4 style="padding: 10px">{{ message }}</h4>
+        </div>
+        </div>
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'products' %}
+{% block main %}
+    <ul class="list-group">
+        <li class="list-group-item active">All products in this category:</li>
+        {% if products|length > 0 %}
+            {% for product in products %}
+                <li class="list-group-item">
+                    <a href="#">{{ product.name }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="text-muted">No products in this category</li>
+        {% endif %}
+    </ul>
+{% endblock %}
+

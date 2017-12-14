@@ -1,0 +1,21 @@
+<table class="table table-responsive table-striped table-bordered">
+    <thead>
+    <tr>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <h5 class="list-group-item active">Main categories</h5>
+    {% if categories|length > 0 %}
+    {% for cat in categories %}
+        <tr>
+            <td><a href="{{ path("subcategories_by_category", {"id": cat.id}) }}">{{ cat.name }}</a></td>
+        </tr>
+    {% endfor %}
+    {% else %}
+        <tr>
+            <td>No categories</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
