@@ -33,15 +33,6 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    public function findUserSales()
-    {
-        return $this->createQueryBuilder("product")
-            ->where("product.quantity>0")
-            ->andWhere("product.seller IS NOT NULL")
-            ->orderBy("product.priority","desc")
-            ->getQuery()
-            ->getResult();
-    }
 
     public function findShopProducts()
     {
