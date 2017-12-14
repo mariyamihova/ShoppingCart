@@ -14,7 +14,7 @@
         <ul class="nav navbar-nav">
             {% block nav_link %}
                 <li><a href="{{ path('latest_products_list') }}" class="fa fa-briefcase"> New Products</a></li>
-                <li><a href="{{ path('view_user_sales') }}" class="fa fa-briefcase"> User sales</a></li>
+                <li><a href="#" class="fa fa-briefcase"> User sales</a></li>
                 <li><a href="#">Promotions</a></li>
             {% endblock %}
         </ul>
@@ -22,8 +22,8 @@
             {% if app.user %}
                 {% block navbar_user %}
                     <li><a href="{{ path('user_profile') }}"><span class="fa fa-user"> My Profile</span></a></li>
-                    <li><a href="{{ path('user_orders') }}"><span class="fa fa-folder-open-o"> My orders</span></a></li>
-                    <li><a href="{{ path('user_cart') }}"><span class="fa fa-shopping-cart"> Cart</span></a></li>
+                    <li><a href="#"><span class="fa fa-folder-open-o"> My orders</span></a></li>
+                    <li><a href="#"><span class="fa fa-shopping-cart"> Cart</span></a></li>
                     <li><a href="{{ path('security_logout') }}"><span class="fa fa-sign-out"> Logout</span></a></li>
                 {% endblock %}
             {% else %}
