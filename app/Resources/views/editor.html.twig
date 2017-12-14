@@ -1,0 +1,23 @@
+{% if is_granted("ROLE_EDITOR") %}
+    <nav class="navbar-right">
+        <ul class="nav navbar-nav">
+            {% block nav_editor %}
+                <li class="badge"><a href="#">Manage Products </a></li>
+                <li class="badge"><a href="#">Manage Categories </a></li>
+            {% endblock %}
+        </ul>
+    </nav>
+{% endif %}
+{% if is_granted("ROLE_ADMIN") %}
+    <nav class="navbar-right">
+        <ul class="nav navbar-nav">
+            {% block nav_admin %}
+                <li class="badge"><a href="#">Manage Products </a></li>
+                <li class="badge"><a href="#">Manage Categories </a></li>
+                <li class="badge"><a href="{{ path('admin_list_users') }}">Manage Users </a></li>
+                <li class="badge"><a href="#">Manage Orders </a></li>
+
+            {% endblock %}
+        </ul>
+    </nav>
+{% endif %}
