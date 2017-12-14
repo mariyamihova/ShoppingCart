@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}
+    Add new user
+{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>Add new user</h3>
+        <hr>
+        {{ form_start(form) }}
+        <div class="container body-container">
+            <div class="form-group">
+                <div> <strong>Email</strong>: {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Fullname</strong>: {{ form_widget(form.fullName,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Money</strong>: {{ form_widget(form.money,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Roles</strong>: {{ form_widget(form.roles,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Password</strong>: {{ form_widget(form.password.first,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Confirm password</strong>: {{ form_widget(form.password.second,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <a class="btn btn-default" href="{{ path('admin_list_users') }}">Cancel</a>
+                <button class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

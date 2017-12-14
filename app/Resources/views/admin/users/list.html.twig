@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}Users{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>All users</h3>
+        <hr>
+        <div class="text-left">
+            <a href="{{ path('admin_add_user') }}" class="btn btn-success btn-xs">Add new user</a>
+        </div>
+        <hr>
+        <table class="table table-responsive table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Fullname</th>
+                <th>Money</th>
+                <th>Roles</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.fullName }}</td>
+                    <td>{{ user.money }}</td>
+                    <td>{{ user.getRoles|join(", ") }}</td>
+                    <td>
+                        <a href="{{ path('admin_edit_user', {'id': user.id}) }}" class="btn btn-warning btn-xs">Edit</a>
+                    </td>
+                    <td>
+                        {% for role in user.getRoles %}
+                            {% if role =="ROLE_ADMIN" or role =="ROLE_EDITOR" %}
+                                <button class="btn btn-default btn-xs disabled" type="submit">Delete</button>
+                            {% else %}
+                                <form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="post">
+                                    <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                                </form>
+                                {% endif %}
+                            {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
