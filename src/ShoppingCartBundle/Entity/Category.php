@@ -57,6 +57,15 @@ class Category
 
     private $imageUrl;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Promotion", inversedBy="categories")
+     * @ORM\JoinTable(name="category_promotions")
+     *
+     * @var ArrayCollection
+     */
+
+    private $promotions;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -158,6 +167,25 @@ class Category
         $this->parent = $parent;
 
     }
+
+    /**
+     * @return ArrayCollection|null
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
+
+    /**
+     * @param ArrayCollection $promotions
+     * @return Category
+     */
+    public function setPromotions(ArrayCollection $promotions)
+    {
+        $this->promotions = $promotions;
+        return $this;
+    }
+
 
     public function __toString()
     {

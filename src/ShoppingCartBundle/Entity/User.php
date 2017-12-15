@@ -86,6 +86,15 @@ class User implements UserInterface
      */
     private $ownedProducts;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Promotion", inversedBy="users")
+     * @ORM\JoinTable(name="user_promotions")
+     *
+     * @var ArrayCollection
+     */
+
+    private $promotions;
+
     public function __construct()
     {
         $this->money = self::INITIAL_CASH;
@@ -269,6 +278,25 @@ class User implements UserInterface
     {
         $this->orders = $orders;
     }
+
+    /**
+     * @return ArrayCollection|null
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
+
+    /**
+     * @param ArrayCollection $promotions
+     * @return User;
+     */
+    public function setPromotions(ArrayCollection $promotions)
+    {
+        $this->promotions = $promotions;
+        return $this;
+    }
+
 
     public function __toString()
     {

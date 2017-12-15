@@ -85,6 +85,14 @@ class Product
     private $priority;
 
     /**
+     * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Promotion", inversedBy="products")
+     * @ORM\JoinTable(name="product_promotions")
+     *
+     * @var ArrayCollection
+     */
+    private $promotions;
+
+    /**
      * Get id
      *
      * @return int
@@ -300,12 +308,31 @@ class Product
     {
         $this->priority = $priority;
     }
+    /**
+     * @return ArrayCollection|null
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
 
+    /**
+     * @param ArrayCollection $promotions
+     * @return Product
+     */
+    public function setPromotions(ArrayCollection $promotions)
+    {
+        $this->promotions = $promotions;
+        return $this;
+    }
 
     public function __toString()
     {
        return $this->name;
     }
+
+
+
 
 }
 
