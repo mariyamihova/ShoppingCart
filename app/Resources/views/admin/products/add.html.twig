@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}
+    Add new product
+{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>Add new product</h3>
+        <hr>
+        {{ form_start(form) }}
+        <div class="container body-container">
+            <div class="form-group">
+                <div> <strong>Name</strong>: {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Description</strong>: {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Category</strong>: {{ form_widget(form.category,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Quantity</strong>: {{ form_widget(form.quantity,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Priority</strong>: {{ form_widget(form.priority,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Price</strong>: {{ form_widget(form.price,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <a class="btn btn-default" href="{{ path('admin_list_products') }}">Cancel</a>
+                <button class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

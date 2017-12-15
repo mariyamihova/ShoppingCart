@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}
+    Edit category
+{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>Edit category</h3>
+        <hr>
+        {{ form_start(form) }}
+        <div class="container body-container">
+            <div class="form-group">
+                <div> <strong>Name</strong>: {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Parent</strong>: {{ form_widget(form.parent,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <a class="btn btn-default" href="{{ path('admin_view_categories') }}">Cancel</a>
+                <button class="btn btn-success">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

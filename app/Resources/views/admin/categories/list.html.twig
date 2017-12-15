@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}Categories{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>All shop categories</h3>
+        <div class="text-left">
+            <a href="{{ path('admin_add_category') }}" class="btn btn-success btn-xs">Add new category</a>
+        </div>
+        <hr>
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Products count</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.products|length }}</td>
+                    <td>
+                        <a href="{{ path('admin_edit_category', {'id': category.id}) }}" class="btn btn-warning btn-xs">Edit</a>
+                    </td>
+                    <td>
+                        {% if category.products|length == 0 %}
+                            <form action="{{ path('admin_delete_category', {'id': category.id}) }}" method="post">
+                                <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                            </form>
+                        {% else %}
+                        <form action="{{ path('admin_delete_category', {'id': category.id}) }}" method="post">
+                            <button class="btn btn-default btn-xs" type="submit">Delete</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
