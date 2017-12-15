@@ -13,6 +13,8 @@ Add new product category
             <div class="form-group">
                 <div> <strong>Name</strong>: {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}</div>
                 <br>
+                <div> <strong>Image URL</strong>: {{ form_widget(form.imageUrl,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
                 <div> <strong>Parent</strong>: {{ form_widget(form.parent,{'attr':{'class':'form-control'}}) }}</div>
                 <br>
                 <a class="btn btn-default" href="{{ path('admin_view_categories') }}">Cancel</a>
