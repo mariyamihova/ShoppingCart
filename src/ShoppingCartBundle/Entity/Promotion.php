@@ -65,13 +65,13 @@ class Promotion
     private $products;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category", mappedBy="promotions")
+     * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Category", mappedBy="promotions")
      * @var ArrayCollection|Category[]
      */
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="promotions")
+     * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\User", mappedBy="promotions")
      * @var ArrayCollection|User[]
      */
     private $users;
