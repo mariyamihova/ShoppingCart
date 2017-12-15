@@ -12,7 +12,7 @@
                         <h2>{{ product.name }}</h2>
                     </header>
                     <div class="thumbnail" >
-                        <img style="height: 250px" src="{{ asset('images/'~ product.imageName ~'') }}" alt="{{ product.name }}">
+                        <img style="height: 250px" src=""{{ asset(product.imageUrl) }}"" alt="{{ product.name }}">
                     </div>
                     {% if product.seller %}
                         <hr>

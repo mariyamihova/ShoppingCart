@@ -12,7 +12,7 @@
         {% for subcat in subcategories %}
             <div class="col-md-4">
                     <div class="thumbnail" >
-                        <img style="height: 75px" src="{{ asset('images/'~ subcat.getImageName ~'') }}" alt="{{ subcat.name  }}">
+                        <img style="height: 75px" src="{{ asset(subcat.imageUrl) }}" alt="{{ subcat.name  }}">
                     </div>
                 <span class="pull-left"> All products in this category: {{ subcat.products|length }}</span><br>
                 <a href="{{ path("products_by_category", {"id": subcat.id} )}}">{{ subcat.name }}</a>
@@ -31,7 +31,7 @@
                 <h2>{{ product.name }}</h2>
             </header>
             <div class="thumbnail" >
-                <img style="height: 250px" src="{{ asset('images/'~ product.imageName ~'') }}" alt="{{ product.name }}">
+                <img style="height: 250px" src="{{ asset(product.imageUrl) }}" alt="{{ product.name }}">
             </div>
             {% if product.seller %}
                 <hr>

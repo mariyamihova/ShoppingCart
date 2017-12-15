@@ -8,7 +8,7 @@
                     <h2 style="text-align: left">{{ product.name }}</h2>
                 </header>
                 <div class="thumbnail">
-                    <img src="{{ asset('images/'~ product.imageName ~'') }}" alt="{{ product.name }}">
+                    <img src="{{ asset(product.imageUrl) }}" alt="{{ product.name }}">
                 </div>
                 <p style="text-align: justify">
                     {{ product.description }}
