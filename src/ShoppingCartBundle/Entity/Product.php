@@ -61,11 +61,11 @@ class Product
      */
     private $category;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="image_url", type="text")
      *
      * @var string
      */
-    private $imageName;
+    private $imageUrl;
     /**
      * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\User", mappedBy="products")
      *
@@ -225,18 +225,18 @@ class Product
     /**
      * @return string|null
      */
-    public function getImageName()
+    public function getImageUrl()
     {
-        return $this->imageName;
+        return $this->imageUrl;
     }
 
     /**
      * @param string $imageName
      * @return Product
      */
-    public function setImageName(string $imageName)
+    public function setImageUrl(string $imageUrl)
     {
-        $this->imageName = $imageName;
+        $this->imageUrl = $imageUrl;
         return $this;
     }
 

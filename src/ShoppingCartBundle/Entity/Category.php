@@ -52,9 +52,10 @@ class Category
     /**
      * @var string
      *
-     * @ORM\Column(name="image_name", type="string")
+     * @ORM\Column(name="image_url", type="text")
      */
-    private $imageName;
+
+    private $imageUrl;
 
     public function __construct()
     {
@@ -125,18 +126,21 @@ class Category
     /**
      * @return string|null
      */
-    public function getImageName()
+    public function getImageUrl()
     {
-        return $this->imageName;
+        return $this->imageUrl;
     }
 
     /**
-     * @param string $imageName
+     * @param string $imageUrl
+     * @return Category
      */
-    public function setImageName(string $imageName)
+    public function setImageUrl(string $imageUrl)
     {
-        $this->imageName = $imageName;
+        $this->imageUrl = $imageUrl;
+        return $this;
     }
+
 
     /**
      * @return ArrayCollection|Category[]
