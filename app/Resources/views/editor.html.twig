@@ -2,8 +2,8 @@
     <nav class="navbar-right">
         <ul class="nav navbar-nav">
             {% block nav_editor %}
-                <li class="badge"><a href="#">Manage Products </a></li>
-                <li class="badge"><a href="#">Manage Categories </a></li>
+                <li class="badge"><a href="{{ path('admin_list_products') }}">Manage Products </a></li>
+                <li class="badge"><a href="{{ path('admin_view_categories') }}">Manage Categories </a></li>
             {% endblock %}
         </ul>
     </nav>
@@ -12,8 +12,8 @@
     <nav class="navbar-right">
         <ul class="nav navbar-nav">
             {% block nav_admin %}
-                <li class="badge"><a href="#">Manage Products </a></li>
-                <li class="badge"><a href="#">Manage Categories </a></li>
+                <li class="badge"><a href="{{ path('admin_list_products') }}">Manage Products </a></li>
+                <li class="badge"><a href="{{ path('admin_view_categories') }}">Manage Categories </a></li>
                 <li class="badge"><a href="{{ path('admin_list_users') }}">Manage Users </a></li>
                 <li class="badge"><a href="#">Manage Orders </a></li>
 
