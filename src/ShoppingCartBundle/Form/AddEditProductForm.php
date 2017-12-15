@@ -20,6 +20,7 @@ class AddEditProductForm extends AbstractType
             ->add("description")
             ->add("quantity")
             ->add("priority")
+            ->add("imageUrl")
             ->add("price", MoneyType::class);
 
     }

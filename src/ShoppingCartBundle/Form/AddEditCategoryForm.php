@@ -16,6 +16,7 @@ class AddEditCategoryForm extends AbstractType
     {
 
         $builder->add("name",TextType::class)
+            ->add("imageUrl")
             ->add("parent",EntityType::class,
                 array('class'=>Category::class,
                     'empty_data'=>null,
