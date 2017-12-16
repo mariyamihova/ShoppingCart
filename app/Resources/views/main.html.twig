@@ -15,7 +15,7 @@
             {% block nav_link %}
                 <li><a href="{{ path('latest_products_list') }}" class="fa fa-briefcase"> New Products</a></li>
                 <li><a href="{{ path('view_user_sales') }}" class="fa fa-briefcase"> User sales</a></li>
-                <li><a href="#">Promotions</a></li>
+                <li><a href="{{ path('view_promotions') }}">Promotions</a></li>
             {% endblock %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
