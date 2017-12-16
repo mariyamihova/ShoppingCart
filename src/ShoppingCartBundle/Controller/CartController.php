@@ -49,7 +49,8 @@ class CartController extends Controller
     {
         $cartService = $this->get(CartService::class);
 
-        if (!$cartService->addToCart($this->getUser(), $product)) {
+        if (!$cartService->addToCart($this->getUser(), $product))
+        {
             $this->addFlash("danger", "Sorry, cannot add this product!");
             return $this->redirectToRoute("homepage");
         }
@@ -86,7 +87,8 @@ class CartController extends Controller
     {
         $cartService = $this->get(CartService::class);
 
-        if (!$cartService->checkoutCart($this->getUser())) {
+        if (!$cartService->checkoutCart($this->getUser()))
+        {
             $this->addFlash("danger", "Sorry, cannot order this product!Check out your cash!");
             return $this->redirectToRoute("user_cart");
         }
