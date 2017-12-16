@@ -49,7 +49,11 @@ class Product
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
      */
     private $price;
-
+    /**
+     * @var float
+     * @ORM\Column(name="promo_price", type="decimal", precision=10, scale=2)
+     */
+    private $promotionalPrice;
     /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
@@ -326,13 +330,28 @@ class Product
         return $this;
     }
 
+    public function setPromotion(Promotion $promotion)
+    {
+        $this->promotions[] = $promotion;
+        $this->promotionalPrice = $this->getPrice()-(($promotion->getDiscount()/100)*$this->getPrice());
+    }
+    public function unsetPromotion(Promotion $promotion)
+    {
+        $this->promotions->removeElement($promotion);
+        $this->promotionalPrice = 0.00;
+    }
     public function __toString()
     {
        return $this->name;
     }
 
-
-
+    /**
+     * @return float
+     */
+    public function getPromotionalPrice()
+    {
+        return $this->promotionalPrice;
+    }
 
 }
 

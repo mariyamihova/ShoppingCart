@@ -83,8 +83,8 @@ class Promotion
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->categories=new ArrayCollection();
-        $this->users=new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -273,7 +273,10 @@ class Promotion
         return $this;
     }
 
-
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
 
 }
