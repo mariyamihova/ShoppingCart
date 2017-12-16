@@ -59,6 +59,7 @@ class UserProductController extends Controller
         $newProduct->setQuantity(1);
         $newProduct->setPriority(1);
         $newProduct->setPrice($product->getPrice());
+        $newProduct->setPromotionalPrice($product->getPromotionalPrice());
         $newProduct->setUpdatedAt(new \DateTime());
         $newProduct->setImageUrl($product->getImageUrl());
         $newProduct->setSeller($this->getUser());
