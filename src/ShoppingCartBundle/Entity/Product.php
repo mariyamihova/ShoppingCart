@@ -276,10 +276,10 @@ class Product
     }
 
     /**
-     * @param mixed $seller
+     * @param int $seller|null
      * @return Product
      */
-    public function setSeller($seller)
+    public function setSeller($seller=null)
     {
         $this->seller = $seller;
         return $this;
@@ -288,7 +288,7 @@ class Product
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }

@@ -31,6 +31,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\NotBlank()
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email."
      * )
@@ -39,14 +40,14 @@ class User implements UserInterface
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message = "Fullname cannot be blank")
      * @ORM\Column(name="fullName", type="string", length=255)
      */
     private $fullName;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message = "Password cannot be blank")
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
@@ -66,6 +67,7 @@ class User implements UserInterface
      */
     private $roles;
     /**
+     * Products added in the cart
      * @var Product[]|@var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Product", inversedBy="users")
@@ -296,6 +298,23 @@ class User implements UserInterface
         $this->promotions = $promotions;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnedProducts()
+    {
+        return $this->ownedProducts;
+    }
+
+    /**
+     * @param mixed $ownedProducts
+     */
+    public function setOwnedProducts($ownedProducts)
+    {
+        $this->ownedProducts = $ownedProducts;
+    }
+
 
 
     public function __toString()
