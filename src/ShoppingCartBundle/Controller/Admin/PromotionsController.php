@@ -5,8 +5,13 @@ namespace ShoppingCartBundle\Controller\Admin;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\Promotion;
 use ShoppingCartBundle\Form\AddEditPromotionType;
+use ShoppingCartBundle\Form\PromotionCategoryForm;
+use ShoppingCartBundle\Form\PromotionProductType;
+use ShoppingCartBundle\Form\PromotionType;
+use ShoppingCartBundle\Service\PromotionService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +35,9 @@ class PromotionsController extends Controller
 
     public function viewAllAction()
     {
-        $promotions=$this->getDoctrine()->getRepository(Promotion::class)->findAll();
+        $promotions = $this->getDoctrine()->getRepository(Promotion::class)->findAll();
 
-        return $this->render("admin/promotions/list.html.twig",["promotions"=>$promotions]);
+        return $this->render("admin/promotions/list.html.twig", ["promotions" => $promotions]);
     }
 
     /**
@@ -52,7 +57,8 @@ class PromotionsController extends Controller
         $form = $this->createForm(AddEditPromotionType::class, $promotion);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $em = $this->getDoctrine()->getManager();
             $em->persist($promotion);
             $em->flush();
@@ -74,7 +80,7 @@ class PromotionsController extends Controller
      * @return Response
      */
 
-    public function editCategoryAction(Request $request,Promotion $promotion)
+    public function editPromotionAction(Request $request, Promotion $promotion)
     {
 
         $form = $this->createForm(AddEditPromotionType::class, $promotion);
@@ -104,7 +110,7 @@ class PromotionsController extends Controller
      * @return Response
      */
 
-    public function deleteCategoryAction(Promotion $promotion)
+    public function deletePromotionAction(Promotion $promotion)
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -113,5 +119,127 @@ class PromotionsController extends Controller
 
         $this->addFlash("success", "Promotion {$promotion->getName()} was deleted!");
         return $this->redirectToRoute("admin_view_promotions");
+    }
+
+    /**
+     * @Route("/promotion/set/category", name="admin_set_promotion_category")
+     * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+
+    public function setPromotionToCategoryAction(Request $request)
+    {
+        $form = $this->createForm(PromotionCategoryForm::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $promotion = $form->get("promotion")->getData();
+            $category = $form->get("category")->getData();
+
+            $promotionService = $this->get(PromotionService::class);
+            $promotionService->setPromotionToCategory($promotion, $category);
+
+            $this->addFlash("success", "Promotion was set to the selected category");
+            return $this->redirectToRoute("admin_view_promotions");
+        }
+
+        return $this->render("admin/promotions/category.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/promotion/set/product", name="admin_set_promotion_product")
+     * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+
+    public function setPromotionToProductAction(Request $request)
+    {
+        $form = $this->createForm(PromotionProductType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $promotion = $form->get("promotion")->getData();
+            $product = $form->get("product")->getData();
+
+            $promotionService = $this->get(PromotionService::class);
+            if ($promotionService->setPromotionToProduct($promotion, $product))
+            {
+                $this->addFlash("success", "Promotion was set to the selected product");
+                return $this->redirectToRoute("admin_view_promotions");
+            }
+
+        }
+
+        return $this->render("admin/promotions/single_product.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/promotion/set/all", name="admin_set_promotion_all_products")
+     * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+
+    public function setPromotionToAllProductsAction(Request $request)
+    {
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+        $form = $this->createForm(PromotionType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $promotion = $form->get("promotion")->getData();
+
+            $promotionService = $this->get(PromotionService::class);
+            $promotionService->setPromotionToAllProducts($promotion, $products);
+
+            $this->addFlash("success", "Promotion was set to all products");
+            return $this->redirectToRoute("admin_view_promotions");
+
+
+        }
+
+        return $this->render("admin/promotions/all_product.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/promotion/delete", name="admin_delete_promotion_products")
+     * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @return Response
+     */
+
+    public function deletePromotionFromProductsAction(Request $request)
+    {
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+        $form = $this->createForm(PromotionType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $promotion = $form->get("promotion")->getData();
+
+            $promotionService = $this->get(PromotionService::class);
+            $promotionService->removePromotion($promotion,$products);
+
+            $this->addFlash("success", "Promotion was deleted successfully");
+            return $this->redirectToRoute("admin_view_promotions");
+
+        }
+
+        return $this->render("admin/promotions/all_product.html.twig", [
+            "form" => $form->createView()
+        ]);
     }
 }
