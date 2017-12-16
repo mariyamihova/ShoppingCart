@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}Promotions{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <div class="container">
+            <h3>All active shop promotions</h3>
+            <hr>
+            <div class="row">
+                {% for promotion in promotions %}
+                    <div class="col-md-4">
+                        <article>
+                            <header>
+                                <h2>{{ promotion.name }}</h2>
+                            </header>
+                            <p class="text-left" style="color: #921e12;"><strong>DISCOUNT:
+                                    % {{ promotion.discount }}</strong></p>
+                            <p class="text-left"><strong>Active untill: {{ promotion.endDate|date }}</strong></p>
+                            <footer>
+                                <a class="btn btn-success"
+                                   href="{{ path('view_promotion_products', {'id': promotion.id}) }}">View products &raquo;</a>
+                            </footer>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

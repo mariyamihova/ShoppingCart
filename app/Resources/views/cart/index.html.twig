@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block main_title %}Your cart{% endblock %}
+
+{% block main %}
+    {% if cart|length > 0 %}
+        <div class="well">
+        <h3>All products in your cart:</h3>
+        <hr>
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in cart %}
+                <tr class="{{ product.quantity == 0 ? "out-of-stock" : "" }}">
+                    <td>
+                        {{ product.name }}
+                        <p class="text-muted">In stock: {{ product.quantity }}</p>
+                        <p>
+                            <span class=""><strong>{{ product.quantity == 0 ? "Out of stock!" : "" }}</strong></span>
+                        </p>
+                    </td>
+                    <td>{{ product.category.name }}</td>
+                    {% if product.promotionalPrice!=0.00 %}
+                        <td><strong>€{{ product.promotionalPrice }}</strong></td>
+                    {% else %}
+                        <td><strong>€{{ product.price }}</strong></td>
+                    {% endif %}
+                    <td>
+                        <form method="post" action="{{ path('user_cart_update', {'id': product.id}) }}">
+                            <button type="submit" class="btn btn-danger btn-xs">Remove
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right">
+                    TOTAL: <strong>€ {{ total }}</strong>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="button-block">
+            <a href="{{ path('user_cart_checkout') }}" class="btn btn-success btn-group-sm">Checkout</a>
+        </div>
+    {% else %}
+        <p>No products in your cart. Don't you want to buy something? :) </p>
+    {% endif %}
+    </div>
+{% endblock %}
