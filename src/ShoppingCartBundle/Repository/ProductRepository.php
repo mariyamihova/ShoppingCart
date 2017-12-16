@@ -10,6 +10,8 @@ namespace ShoppingCartBundle\Repository;
  * repository methods below.
  */
 use ShoppingCartBundle\Entity\Category;
+use ShoppingCartBundle\Entity\User;
+
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllBySubCategory(Category $category)
@@ -33,6 +35,15 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+    public function findUserSales()
+    {
+        return $this->createQueryBuilder("product")
+            ->where("product.quantity>0")
+            ->andWhere("product.seller IS NOT NULL")
+            ->orderBy("product.priority","desc")
+            ->getQuery()
+            ->getResult();
+    }
 
     public function findShopProducts()
     {
@@ -40,6 +51,15 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->where("product.quantity>0")
             ->andWhere("product.seller IS NULL")
             ->orderBy("product.priority","desc")
+            ->getQuery()
+            ->getResult();
+    }
+    public function findProductsBySeller(User $seller)
+    {
+        return $this->createQueryBuilder("product")
+            ->where("product.quantity > 0")
+            ->andWhere("product.seller = :seller")
+            ->setParameter("seller", $seller)
             ->getQuery()
             ->getResult();
     }
