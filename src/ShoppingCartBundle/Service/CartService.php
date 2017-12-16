@@ -108,8 +108,16 @@ class CartService implements CartServiceInterface
     {
 
         $total = 0;
-        foreach ($products as $product) {
-            $total += $product->getPrice();
+        foreach ($products as $product)
+        {
+            if($product->getPromotionalPrice()!=0.00)
+            {
+                $total += $product->getPromotionalPrice();
+            }
+            else
+            {
+                $total += $product->getPrice();
+            }
         }
 
         return number_format($total, 2, '.', '');
