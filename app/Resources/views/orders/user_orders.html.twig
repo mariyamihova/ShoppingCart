@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}My Orders{% endblock %}
+
+{% block main %}
+    {% if orders|length > 0 %}
+        <h3>This is your orders history: </h3>
+        <hr>
+        {% for order in orders %}
+            <div class="well">
+                <table class="table-responsive table table-bordered">
+                    <div>  <strong>Order date:</strong> {{ order.date|date }}</div>
+                    <div> <strong>Status:</strong> {{ order.verified ? "Completed" : "Pending" }} </div>
+                    <hr>
+                    <thead>
+                    <tr>
+
+                        <th>Product name</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,product in order.products %}
+                        <tr>
+                            <td>{{ product }}</td>
+                        </tr>
+                        <tr>
+                            {% if order.verified %}
+                                <td><a href="{{ path('sell_user_product', {'id': key}) }}" class="btn btn-success btn-xs">Sell product</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+                <div>
+                   <strong> Total: € {{ order.total|number_format (2,'.','')}}</strong>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+        <hr>
+        <p>You don't have any orders yet. What are you waiting for? :)</p>
+    {% endif %}
+{% endblock %}

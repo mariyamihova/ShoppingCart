@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}My products{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>These are all your products, which are added for sale!</h3>
+        <hr>
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% if products|length>0 %}
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.price }}</td>
+
+                </tr>
+            {% endfor %}
+                {% else %}
+                <h4 style="color: #0f7864">Congrats! All your products have been sold. Check out your money! ;)</h4>
+                    {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

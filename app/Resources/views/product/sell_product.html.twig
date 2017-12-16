@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}Sell a product{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>Edit product info before adding it for sale</h3>
+        <hr>
+        {{ form_start(form) }}
+        <div class="container body-container">
+            <div class="form-group">
+                <div> <strong>Name</strong>: {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Description</strong>: {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Price</strong>: {{ form_widget(form.price,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <a class="btn btn-default" href="{{ path('user_orders') }}">Cancel</a>
+                <button class="btn btn-success">Sell</button>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
