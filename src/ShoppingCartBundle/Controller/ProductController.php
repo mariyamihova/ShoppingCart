@@ -79,5 +79,19 @@ class ProductController extends Controller
         return $this->render("product/latest_products.html.twig",["products"=>$products]);
     }
 
+    /**
+     * @Route("/products/sales", name="view_user_sales")
+     * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Method("GET")
+     *
+     * @return Response
+     */
 
+    public function viewUserSales()
+    {
+        $products=$this->getDoctrine()->getRepository(Product::class)
+            ->findUserSales();
+
+        return $this->render("product/user_sales_products.html.twig", ["products"=>$products]);
+    }
 }
