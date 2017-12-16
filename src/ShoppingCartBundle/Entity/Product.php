@@ -333,7 +333,7 @@ class Product
     public function setPromotion(Promotion $promotion)
     {
         $this->promotions[] = $promotion;
-        $this->promotionalPrice = $this->getPrice()-(($promotion->getDiscount()/100)*$this->getPrice());
+        $this->setPromotionalPrice($this->getPrice()-(($promotion->getDiscount()/100)*$this->getPrice()));
     }
     public function unsetPromotion(Promotion $promotion)
     {
@@ -351,6 +351,14 @@ class Product
     public function getPromotionalPrice()
     {
         return $this->promotionalPrice;
+    }
+
+    /**
+     * @param float $promotionalPrice
+     */
+    public function setPromotionalPrice(float $promotionalPrice)
+    {
+        $this->promotionalPrice = $promotionalPrice;
     }
 
 }
