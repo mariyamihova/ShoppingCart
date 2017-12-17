@@ -55,7 +55,8 @@ class ProductsController extends Controller
         {
 
             $product->setUpdatedAt(new \DateTime());
-            
+            $product->setPromotionalPrice(0.00);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
