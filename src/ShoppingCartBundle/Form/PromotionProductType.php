@@ -22,6 +22,7 @@ class PromotionProductType extends AbstractType
             ])
             ->add("product", EntityType::class, [
                 "class" => Product::class,
+                "multiple"=>true,
                 "label" => "Products",
                 "placeholder" => "Choose product",
 
