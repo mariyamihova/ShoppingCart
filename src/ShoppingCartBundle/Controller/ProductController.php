@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ShoppingCartBundle\Entity\Category;
 use ShoppingCartBundle\Entity\Product;
+use ShoppingCartBundle\Entity\ProductReview;
+use ShoppingCartBundle\Form\ProductReviewForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +42,8 @@ class ProductController extends Controller
     public function viewProductAction(Product $product)
     {
 
-        return $this->render('product/product_info.html.twig', ['product' => $product]);
+        return $this->render('product/product_info.html.twig', ['product' => $product,
+            "reviews"=>$product->getReviews()]);
 
     }
 
@@ -93,5 +96,38 @@ class ProductController extends Controller
             ->findUserSales();
 
         return $this->render("product/user_sales_products.html.twig", ["products"=>$products]);
+    }
+    /**
+     * @Route("/{id}/review", name="product_add_review")
+     * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
+     *
+     * @param Product $product
+     * @param Request $request
+     * @return Response
+     */
+    public function addReviewAction(Product $product, Request $request)
+    {
+
+        $productReview=new ProductReview();
+
+        $form=$this->createForm(ProductReviewForm::class,$productReview);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $productReview->setUser($this->getUser());
+            $productReview->setProduct($product);
+            $productReview->setDate(new \DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($productReview);
+            $em->flush();
+
+            $this->addFlash("success", "Review added successfully!");
+            return $this->redirectToRoute("view_product",["id"=>$product->getId()]);
+        }
+        return $this->render("product/add_review.html.twig", [
+            "form" => $form->createView()
+        ]);
     }
 }
