@@ -97,12 +97,19 @@ class User implements UserInterface
 
     private $promotions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ShoppingCartBundle\Entity\ProductReview", mappedBy="user")
+     * @var ProductReview[]|ArrayCollection $reviews
+     */
+    private $reviews;
+
     public function __construct()
     {
         $this->money = self::INITIAL_CASH;
         $this->roles = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->reviews=new ArrayCollection();
     }
 
     /**
@@ -298,6 +305,15 @@ class User implements UserInterface
         $this->promotions = $promotions;
         return $this;
     }
+
+    /**
+     * @return ArrayCollection|ProductReview[]
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
 
     /**
      * @return mixed

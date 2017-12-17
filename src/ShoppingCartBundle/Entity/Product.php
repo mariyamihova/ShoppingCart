@@ -97,6 +97,11 @@ class Product
     private $promotions;
 
     /**
+     * @ORM\OneToMany(targetEntity="ShoppingCartBundle\Entity\ProductReview", mappedBy="product")
+     * @var ProductReview[]|ArrayCollection $reviews
+     */
+    private $reviews;
+    /**
      * Get id
      *
      * @return int
@@ -381,6 +386,14 @@ class Product
     public function setPromotionalPrice(float $promotionalPrice)
     {
         $this->promotionalPrice = $promotionalPrice;
+    }
+
+    /**
+     * @return ArrayCollection|ProductReview[]
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
     }
 
 }
