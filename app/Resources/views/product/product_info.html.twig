@@ -61,10 +61,10 @@
                     <strong> Posted on: </strong>{{ review.date|date }}
                 </div>
             </div>
+            <hr>
         {% endfor %}
     {% else %}
         <p>No reviews for this product yet!:
-            <a href="{{ path("product_add_review", {"id": product.id}) }}" class="btn btn-success  btn-xs" >Rate product</a></p>
     {% endif %}
     <a href="{{ path("product_add_review", {"id": product.id}) }}" class="btn btn-success  btn-xs">Rate product</a>
 
