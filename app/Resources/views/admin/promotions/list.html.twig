@@ -4,10 +4,16 @@
 
 {% block main %}
     <div class="well">
-        <h3>All shop promotions</h3>
         <div class="text-left">
-            <a href="{{ path('admin_add_promotion') }}" class="btn btn-success btn-xs">Add new promotion</a>
+
+            <a href="{{ path('admin_set_promotion_category') }}" class="btn btn-success btn-xs">Set promotion to category</a>
+            <a href="{{ path('admin_set_promotion_product') }}" class="btn btn-success btn-xs">Set promotion to certain products</a>
+            <a href="{{ path('admin_set_promotion_all_products') }}" class="btn btn-success btn-xs">Set promotion to all products</a>
+            <a href="{{ path('admin_delete_promotion_products') }}" class="btn btn-danger btn-xs">Remove promotion from products</a>
+
         </div>
+        <h3>All shop promotions</h3>
+        <a href="{{ path('admin_add_promotion') }}" class="btn btn-success btn-xs">Add new promotion</a>
         <hr>
         <table class="table table-responsive">
             <thead>
