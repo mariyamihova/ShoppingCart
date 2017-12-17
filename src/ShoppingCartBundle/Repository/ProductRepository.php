@@ -30,7 +30,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->where("product.seller IS NULL")
             ->andWhere("product.quantity > 0")
             ->setMaxResults($count)
-            ->orderBy("product.priority", "desc")
+            ->orderBy("product.id", "desc")
             ->getQuery()
             ->getResult();
     }
@@ -54,6 +54,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findProductsBySeller(User $seller)
     {
         return $this->createQueryBuilder("product")
@@ -63,4 +64,6 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
 }
