@@ -133,6 +133,7 @@ class PromotionsController extends Controller
     {
         $form = $this->createForm(PromotionCategoryForm::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $promotion = $form->get("promotion")->getData();
@@ -158,7 +159,7 @@ class PromotionsController extends Controller
      * @return Response
      */
 
-    public function setPromotionToProductAction(Request $request)
+    public function setPromotionToCertainProductsAction(Request $request)
     {
         $form = $this->createForm(PromotionProductType::class);
         $form->handleRequest($request);
@@ -166,14 +167,13 @@ class PromotionsController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
             $promotion = $form->get("promotion")->getData();
-            $product = $form->get("product")->getData();
+            $products = $form->get("product")->getData();
 
             $promotionService = $this->get(PromotionService::class);
-            if ($promotionService->setPromotionToProduct($promotion, $product))
-            {
-                $this->addFlash("success", "Promotion was set to the selected product");
-                return $this->redirectToRoute("admin_view_promotions");
-            }
+            $promotionService->setPromotionToProduct($promotion, $products);
+
+            $this->addFlash("success", "Promotion was set to the selected product/products");
+            return $this->redirectToRoute("admin_view_promotions");
 
         }
 
