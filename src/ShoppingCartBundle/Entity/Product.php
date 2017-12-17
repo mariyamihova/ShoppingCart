@@ -338,7 +338,7 @@ class Product
     public function unsetPromotion(Promotion $promotion)
     {
         $this->promotions->removeElement($promotion);
-        $this->promotionalPrice = 0.00;
+        $this->setPromotionalPrice(0.00);
     }
     public function __toString()
     {
