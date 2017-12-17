@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}
+    Add new product review
+{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>Add new review</h3>
+        <hr>
+        {{ form_start(form) }}
+        <div class="container body-container">
+            <div class="form-group">
+                <div> <strong>Comment</strong>: {{ form_widget(form.comment,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <div> <strong>Rate</strong>: {{ form_widget(form.rate,{'attr':{'class':'form-control'}}) }}</div>
+                <br>
+                <button class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
