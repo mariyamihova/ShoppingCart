@@ -10,16 +10,25 @@
                 <div class="thumbnail">
                     <img src="{{ asset(product.imageUrl) }}" alt="{{ product.name }}">
                 </div>
+                <div>
                 <p style="text-align: justify">
                     {{ product.description }}
                 </p>
-
-                <small>
+                </div>
+                <div>
                     <a href="{{ path("products_by_category", {"id": product.category.getId}) }}">{{ product.category.name }}</a>
-                </small>
+                </div>
                 <p style="text-align: justify">
                     In stock: {{ product.quantity }}
                 </p>
+                <div class="badge pull-left">
+                    {% if product.promotionalPrice!=0.00 %}
+                        Price: {{ product.promotionalPrice }}
+                    {% else %}
+                        Price: {{ product.price }}
+                    {% endif %}
+                </div>
+                <br>
                 {% if product.seller %}
                     <hr>
                     <p class="bg-primary img-responsive">Seller: {{ product.seller.fullName }}</p>
@@ -51,9 +60,9 @@
                 <div class="badge" style="color: #3be6c4">
                     Reviewed by: <strong>({{ review.user.email }})</strong>
                 </div>
-            <div class="badge" style="color: #3be6c4">
-                Rating: {{ review.rate }}
-            </div>
+                <div class="badge" style="color: #3be6c4">
+                    Rating: {{ review.rate }}
+                </div>
                 <div class="panel-body">
                     <strong> Comment:</strong> {{ review.comment }}
                 </div>

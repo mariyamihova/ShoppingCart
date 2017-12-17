@@ -18,9 +18,12 @@
                             <hr>
                             <p class="bg-primary img-responsive">Seller: {{ product.seller.fullName }}</p>
                         {% endif %}
-                        <small class="text-left">
+                        <div class="text-left">
+                            In stock:{{ product.quantity }}
+                        </div>
+                        <div class="text-left">
                             {{ product.category.name }}
-                        </small>
+                        </div>
                         <p class="text-left" style="color: #0e6f5c;"><strong>PRICE: € {{ product.price }}</strong></p>
                         <footer>
                             <div class="pull-right">

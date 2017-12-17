@@ -18,16 +18,19 @@
                         <hr>
                         <p class="bg-primary img-responsive">Seller: {{ product.seller.fullName }}</p>
                     {% endif %}
-                    <small class="text-left">
+                    <div class="text-left">
+                        In stock:{{ product.quantity }}
+                    </div>
+                    <div class="text-left">
                         {{ product.category.name }}
-                    </small>
+                    </div>
                     <p class="text-left" style="color: #0e6f5c;"><strong>PRICE: {{ product.price }} euro</strong></p>
                     <footer>
                         <div class="pull-right">
                             <a class="btn btn-default"
                                href="{{ path('view_product',{'id':product.id}) }}">Read more &raquo;</a>
                         </div>
-                        <form method="post" action="#"
+                        <form method="post" action="{{ path('user_cart_add', {'id': product.id}) }}"
                               style="display: inline-block">
                             <button class="btn btn-success" type="submit"> Add to Cart
                             </button>
