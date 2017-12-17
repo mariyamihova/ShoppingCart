@@ -333,12 +333,34 @@ class Product
     public function setPromotion(Promotion $promotion)
     {
         $this->promotions[] = $promotion;
-        $this->setPromotionalPrice($this->getPrice()-(($promotion->getDiscount()/100)*$this->getPrice()));
+
+        if(count($this->getPromotions())>1)
+        {
+            $promotions=$this->getPromotions()->toArray();
+            usort($promotions, function (Promotion $p1, Promotion $p2) {
+                return $p2->getDiscount() - $p1->getDiscount();
+            });
+            /** @var Promotion $biggerPromotion */
+            $biggerPromotion=$promotions[0];
+            $this->setPromotionalPrice($this->getPrice()-(($biggerPromotion->getDiscount()/100)*$this->getPrice()));
+        }else {
+            $this->setPromotionalPrice($this->getPrice()-(($promotion->getDiscount()/100)*$this->getPrice()));
+        }
+
     }
     public function unsetPromotion(Promotion $promotion)
     {
-        $this->promotions->removeElement($promotion);
-        $this->setPromotionalPrice(0.00);
+        if(count($this->getPromotions())>1)
+        {
+            $this->promotions->removeElement($promotion);
+            /** @var Promotion $leftPromotion */
+            $leftPromotion=$this->promotions->first();
+            $this->setPromotionalPrice($this->getPrice()-(($leftPromotion->getDiscount()/100)*$this->getPrice()));
+        }else{
+            $this->promotions->removeElement($promotion);
+            $this->setPromotionalPrice(0.00);
+        }
+
     }
     public function __toString()
     {
