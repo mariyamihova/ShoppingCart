@@ -9,6 +9,7 @@
 namespace ShoppingCartBundle\Service;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use ShoppingCartBundle\Entity\Category;
 use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\Promotion;
@@ -16,7 +17,7 @@ use ShoppingCartBundle\Entity\Promotion;
 interface PromotionServiceInterface
 {
     public function setPromotionToCategory(Promotion $promotion, Category $category);
-    public function setPromotionToProduct(Promotion $promotion, Product $product);
+    public function setPromotionToProduct(Promotion $promotion, ArrayCollection $products);
     public function setPromotionToAllProducts(Promotion $promotion, array $products);
     public function removePromotion(Promotion $promotion,array $products);
 }

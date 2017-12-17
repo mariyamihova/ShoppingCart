@@ -9,6 +9,7 @@
 namespace ShoppingCartBundle\Service;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use ShoppingCartBundle\Entity\Category;
@@ -64,18 +65,20 @@ class PromotionService implements PromotionServiceInterface
         $this->entityManager->flush();
     }
 
-    public function setPromotionToProduct(Promotion $promotion, Product $product)
+    public function setPromotionToProduct(Promotion $promotion, ArrayCollection $products)
     {
 
+        foreach ($products as $product)
+        {
             if($product->getPromotions()->contains($promotion))
             {
-                return false;
+                continue;
             }
             $product->setPromotion($promotion);
+            $this->entityManager->persist($product);
+            $this->entityManager->flush();
+        }
 
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
-        return true;
     }
 
     public function setPromotionToAllProducts(Promotion $promotion, array $products)
