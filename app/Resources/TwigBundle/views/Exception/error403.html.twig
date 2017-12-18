@@ -1,0 +1,21 @@
+{#
+    This template is used to render errors of type HTTP 403 (Forbidden)
+
+    This is the simplest way to customize error pages in Symfony applications.
+    In case you need it, you can also hook into the internal exception handling
+    made by Symfony. This allows you to perform advanced tasks and even recover
+    your application from some errors.
+    See http://symfony.com/doc/current/cookbook/controller/error_pages.html
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block body_id 'error' %}
+
+{% block body %}
+    <h1>Access Denied Error 403</h1>
+
+    <h3>The requested resource requires an authentication.</h3>
+    <h4><a href="{{ path('homepage') }}">return to the homepage</a></h4>
+{% endblock %}
+
