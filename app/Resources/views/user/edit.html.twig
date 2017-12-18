@@ -8,7 +8,10 @@
         <form class="form-horizontal" action="{{ path('user_profile_edit')}}" method="POST">
             <fieldset>
                 <legend>Edit Profile</legend>
-
+                <div class="alert-danger">{{ form_errors(form.email) }}</div>
+                <div class="alert-danger">{{ form_errors(form.fullName) }}</div>
+                <div class="alert-danger"> {{ form_errors(form.password.first) }}</div>
+                <div class="alert-danger"> {{ form_errors(form.password.second) }}</div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="user_email">Email</label>
                     <div class="col-sm-4 ">
