@@ -4,6 +4,7 @@ namespace ShoppingCartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="ShoppingCartBundle\Repository\UserRepository")
+ * @UniqueEntity("email",
+ *     message = "The email '{{ value }}' is already in use.")
  */
 class User implements UserInterface
 {
@@ -30,11 +33,12 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\NotBlank(message = "Email cannot be blank")
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email."
      * )
+     *
      */
     private $email;
 
@@ -48,6 +52,12 @@ class User implements UserInterface
     /**
      * @var string
      * @Assert\NotBlank(message = "Password cannot be blank")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 20,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     *      maxMessage = "Your password cannot be longer than {{ limit }} characters"
+     * )
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
