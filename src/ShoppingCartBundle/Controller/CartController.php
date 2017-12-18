@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\SecurityBundle\Tests\Functional\Bundle\AclBundle\Entity\Car;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -51,7 +52,7 @@ class CartController extends Controller
 
         if (!$cartService->addToCart($this->getUser(), $product))
         {
-            $this->addFlash("danger", "Sorry, cannot add this product!");
+            $this->addFlash("danger", "Sorry, cannot add this product.It is out of stock!");
             return $this->redirectToRoute("homepage");
         }
 
@@ -77,17 +78,19 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/checkout", name="user_cart_checkout")
-     * @Method({"GET", "POST"})
+     * @Route("/checkout/{id}", name="user_cart_checkout")
      *
+     *
+     * @param Product $product
      * @return Response
      */
 
-    public function checkoutAction()
+    public function checkoutAction(Product $product)
     {
+
         $cartService = $this->get(CartService::class);
 
-        if (!$cartService->checkoutCart($this->getUser()))
+        if (!$cartService->checkoutCart($this->getUser(),$product))
         {
             $this->addFlash("danger", "Sorry, cannot order this product!Check out your cash!");
             return $this->redirectToRoute("user_cart");
