@@ -36,11 +36,12 @@ class ProductOrder
     private $verified;
 
     /**
-     * @var string[] $products
+     * @var Product $product
      *
-     * @ORM\Column(name="products", type="json_array")
+     * @ORM\ManyToOne(targetEntity="ShoppingCartBundle\Entity\Product", inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $products;
+    private $product;
 
     /**
      * @var User $user
@@ -118,13 +119,13 @@ class ProductOrder
     /**
      * Set products
      *
-     * @param array $products
+     * @param Product $product
      *
      * @return ProductOrder
      */
-    public function setProducts($products)
+    public function setProduct(Product $product)
     {
-        $this->products = $products;
+        $this->product = $product;
 
         return $this;
     }
@@ -132,11 +133,11 @@ class ProductOrder
     /**
      * Get products
      *
-     * @return array
+     * @return Product
      */
-    public function getProducts()
+    public function getProduct()
     {
-        return $this->products;
+        return $this->product;
     }
 
     /**

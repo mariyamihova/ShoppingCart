@@ -101,6 +101,14 @@ class Product
      * @var ProductReview[]|ArrayCollection $reviews
      */
     private $reviews;
+
+    /**
+     * @var ProductOrder[]|ArrayCollection $orders
+     * @ORM\OneToMany(targetEntity="ShoppingCartBundle\Entity\ProductOrder", mappedBy="product")
+     * @ORM\OrderBy({"date":"desc"})
+     *
+     */
+    private $orders;
     /**
      * Get id
      *
