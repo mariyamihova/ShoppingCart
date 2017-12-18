@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block main_title %}Categories{% endblock %}
+
+{% block main %}
+    <div class="well">
+        <h3>All product reviews</h3>
+        <hr>
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Product</th>
+                <th>Comment</th>
+                <th>Rate</th>
+                <th>Date</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for review in reviews %}
+                <tr>
+                    <td>{{ review.id }}</td>
+                    <td>{{ review.user.email }}</td>
+                    <td>{{ review.product.name }}</td>
+                    <td>{{ review.comment }}</td>
+                    <td>{{ review.rate }}</td>
+                    <td>{{ review.date|date }}</td>
+                    <td>
+                            <form action="{{ path('admin_delete_review', {'id': review.id}) }}" method="post">
+                                <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                            </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
