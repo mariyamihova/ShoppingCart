@@ -2,22 +2,28 @@
 
 namespace ShoppingCartBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="security_login")
-     *
+     * @param Request $request
+     * @param AuthenticationUtils $authUtils
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function loginAction()
+    public function loginAction(Request $request,AuthenticationUtils $authUtils)
     {
+        $error = $authUtils->getLastAuthenticationError();
+        $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig');
+        return $this->render('security/login.html.twig',["last_username"=>$lastUsername,
+            "error"=>$error]);
     }
 
     /**
