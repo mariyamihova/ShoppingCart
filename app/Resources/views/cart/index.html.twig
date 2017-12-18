@@ -14,6 +14,7 @@
                 <th>Category</th>
                 <th>Price</th>
                 <th>Remove</th>
+                <th>Order product</th>
             </tr>
             </thead>
             <tbody>
@@ -38,10 +39,16 @@
                             </button>
                         </form>
                     </td>
-
+                    <td>
+                        <form method="post" action={{ path('user_cart_checkout',{'id': product.id}) }}>
+                            <button type="submit" class="btn btn-success btn-xs">Order product
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -51,9 +58,6 @@
             </tr>
             </tbody>
         </table>
-        <div class="button-block">
-            <a href="{{ path('user_cart_checkout') }}" class="btn btn-success btn-group-sm">Checkout</a>
-        </div>
     {% else %}
         <p>No products in your cart. Don't you want to buy something? :) </p>
     {% endif %}
