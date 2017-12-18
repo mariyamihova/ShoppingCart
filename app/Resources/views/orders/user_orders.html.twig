@@ -20,16 +20,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,product in order.products %}
                         <tr>
-                            <td>{{ product }}</td>
+                            <td>{{ order.product.name }}</td>
                         </tr>
                         <tr>
                             {% if order.verified %}
-                                <td><a href="{{ path('sell_user_product', {'id': key}) }}" class="btn btn-success btn-xs">Sell product</a></td>
+                                <td><a href="{{ path('sell_user_product', {'id': order.product.id}) }}" class="btn btn-success btn-xs">Sell product</a></td>
                             {% endif %}
                         </tr>
-                    {% endfor %}
                     </tbody>
                 </table>
                 <hr>
