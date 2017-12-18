@@ -9,9 +9,10 @@
 namespace ShoppingCartBundle\Service;
 
 
+use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\User;
 
 interface OrderServiceInterface
 {
- public function createOrder(User $user,\DateTime $date, array $products, float $total);
+ public function createOrder(User $user,\DateTime $date, Product $product, float $total);
 }

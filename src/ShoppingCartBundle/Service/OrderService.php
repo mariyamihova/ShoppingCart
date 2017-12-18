@@ -10,6 +10,7 @@ namespace ShoppingCartBundle\Service;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\ProductOrder;
 use ShoppingCartBundle\Entity\User;
 
@@ -27,12 +28,12 @@ class OrderService implements OrderServiceInterface
     }
 
 
-    public function createOrder(User $user, \DateTime $date, array $products, float $total)
+    public function createOrder(User $user, \DateTime $date, Product $product, float $total)
     {
         $order=new ProductOrder();
         $order->setUser($user);
         $order->setDate($date);
-        $order->setProducts($products);
+        $order->setProduct($product);
         $order->setTotal($total);
         $order->setVerified(false);
 

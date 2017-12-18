@@ -59,23 +59,23 @@ class CartService implements CartServiceInterface
         return false;
     }
 
-    public function checkoutCart(User $user)
+    public function checkoutCart(User $user,Product $product)
     {
+        dump($product);
         $userCash = $user->getMoney();
         $cartTotal = $this->getProductsTotal($user->getProducts()->toArray());
-        $cartProducts = $user->getProducts();
+        //$cartProducts = $user->getProducts();
 
-        $orderedProducts = [];
-        foreach ($cartProducts as $product)
-        {
+
+
             if ($cartTotal > $userCash || $product->getQuantity() < 1)
             {
                 return false;
             }
             $product->setQuantity($product->getQuantity() - 1);
+
             $user->getProducts()->removeElement($product);
 
-            $orderedProducts[$product->getId()] = $product->getName();
 
             /** @var User $seller */
             $seller = $product->getSeller();
@@ -89,10 +89,10 @@ class CartService implements CartServiceInterface
                 $this->entityManager->persist($product);
             }
 
-        }
+
         $user->setMoney($userCash - $cartTotal);
 
-        $order = $this->orderService->createOrder($user, new \DateTime(), $orderedProducts, $cartTotal);
+        $order = $this->orderService->createOrder($user, new \DateTime(), $product, $cartTotal);
         $this->entityManager->persist($order);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
