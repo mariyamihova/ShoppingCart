@@ -13,4 +13,5 @@ interface CartServiceInterface
     public function getProductsTotal($products);
     public function removeFromCart(User $user, Product $product);
     public function checkoutCart(User $user,Product $product);
+    public function getOrderTotal(Product $product);
 }
