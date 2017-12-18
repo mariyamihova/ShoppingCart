@@ -11,7 +11,7 @@
             <tr>
                 <th>Date</th>
                 <th>User</th>
-                <th>Products</th>
+                <th>Product/th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Approve</th>
@@ -23,7 +23,7 @@
                 <tr>
                     <td>{{ order.date|date }}</td>
                     <td>{{ order.user.fullName }}</td>
-                    <td>{{ order.products|join(", ") }}</td>
+                    <td>{{ order.product.name }}</td>
                     <td>{{ order.total|number_format(2) }}</td>
                     <td> {{ order.verified ? "Completed" : "Pending" }}</td>
                     <td>
