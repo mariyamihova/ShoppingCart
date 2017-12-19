@@ -10,6 +10,8 @@ namespace ShoppingCartBundle\Repository;
  * repository methods below.
  */
 use ShoppingCartBundle\Entity\Promotion;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 class PromotionRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllActivePromotions()
@@ -22,15 +24,5 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    public function findProductsByPromotion($promotionId)
-    {
-        return $this->createQueryBuilder("promotion")
-            ->join("promotion.products","pp")
-            ->select("pp.id")
-            ->where("promotion.id=:id")
-            ->setParameter("id",$promotionId)
-            ->getQuery()
-            ->getResult();
-    }
 
 }
