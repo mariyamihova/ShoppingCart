@@ -29,7 +29,7 @@ class PromotionController extends Controller
     public function indexAction()
     {
 
-        $promotions=$this->getDoctrine()->getRepository(Promotion::class)
+        $promotions = $this->getDoctrine()->getRepository(Promotion::class)
             ->findAllActivePromotions();
 
         return $this->render("promotions/list.html.twig", [
@@ -41,20 +41,13 @@ class PromotionController extends Controller
      * @Route("/{id}", name="view_promotion_products")
      * @Method("GET")
      * @param Promotion $promotion
+     *
      * @return Response
      */
     public function viewPromotionProducts(Promotion $promotion)
     {
+        $allProducts = $promotion->getProducts();
+        return $this->render("promotions/all_products.html.twig", ["products" => $allProducts]);
 
-        $productIds=$this->getDoctrine()->getRepository(Promotion::class)
-            ->findProductsByPromotion($promotion->getId());
-        $promService=$this->get(PromotionService::class);
-        $allProducts=$promService->getPromotionalProducts($productIds);
-
-            return $this->render("promotions/all_products.html.twig",["products"=>$allProducts]);
-
-
-
-
-}
+    }
 }
