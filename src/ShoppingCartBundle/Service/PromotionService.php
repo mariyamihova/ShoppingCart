@@ -36,18 +36,6 @@ class PromotionService implements PromotionServiceInterface
     }
 
 
-    public function getPromotionalProducts(array $productIds)
-    {
-        $products=[];
-        foreach ($productIds as $id)
-        {
-            $prId=$id["id"];
-            $product=$this->repoManager->getRepository(Product::class)->find($prId);
-            $products[]=$product;
-        }
-        return $products;
-    }
-
 
     public function setPromotionToCategory(Promotion $promotion, Category $category)
     {
@@ -100,7 +88,6 @@ class PromotionService implements PromotionServiceInterface
     }
     public function removePromotion(Promotion $promotion,array $products)
     {
-
 
         foreach ($products as $product)
         {
