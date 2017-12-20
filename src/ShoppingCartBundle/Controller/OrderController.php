@@ -3,6 +3,7 @@
 namespace ShoppingCartBundle\Controller;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -26,16 +27,24 @@ class OrderController extends Controller
      * @Route("", name="user_orders")
      * @Method("GET")
      *
+     * @param Request $request
      * @return Response
      *
      */
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $currentUser=$this->getUser();
 
-        $orders=$this->getDoctrine()->getRepository(ProductOrder::class)
-            ->getOrdersByUser($currentUser);
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|ProductOrder[] $orders */
+        $orders = $pager->paginate(
+            $this->getDoctrine()->getRepository(ProductOrder::class)
+                ->getOrdersByUser($currentUser),
+            $request->query->getInt('page', 1),
+            5
+        );
 
         return $this->render("orders/user_orders.html.twig", ["orders" => $orders]);
     }

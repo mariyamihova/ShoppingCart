@@ -19,20 +19,31 @@ class ProductController extends Controller
 {
     /**
      * @Route("", name="products_list")
+     * @Route("", name="homepage")
      * @Method("GET")
      *
+     * @param Request $request
      * @return Response
      */
 
-    public function viewAllAction()
+    public function viewAllAction(Request $request)
     {
-        $products=$this->getDoctrine()->getRepository(Product::class)->findShopProducts();
 
-        return $this->render("product/products.html.twig",["products"=>$products]);
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|Product[] $products */
+        $products = $pager->paginate(
+            $this->getDoctrine()->getRepository(Product::class)
+                ->findShopProducts(),
+            $request->query->getInt('page', 1),
+            9
+        );
+        return $this->render("product/products.html.twig", ["products"=>$products]);
+
     }
 
     /**
-     * @Route("/product/{id}", name="view_product")
+     * @Route("/product/{id}", name="view_product", requirements={"id"="\d+"})
      * @Method("GET")
      *
      * @param Product $product
@@ -43,23 +54,30 @@ class ProductController extends Controller
     {
 
         return $this->render('product/product_info.html.twig', ['product' => $product,
-            "reviews"=>$product->getReviews()]);
+            "reviews" => $product->getReviews()]);
 
     }
 
     /**
-     * @Route("/category/{id}/", name="products_by_category")
+     * @Route("/category/{id}/", name="products_by_category", requirements={"id"="\d+"})
      * @Method("GET")
      *
      * @param Category $category
+     * @param Request $request
      * @return Response
      */
 
-    public function listCategoryAction(Category $category)
+    public function listCategoryAction(Category $category,Request $request)
     {
+        $pager = $this->get('knp_paginator');
 
-        $products = $this->getDoctrine()->getRepository(Product::class)
-                ->findAllBySubCategory($category);
+        /** @var ArrayCollection|Product[] $products */
+        $products = $pager->paginate(
+            $this->getDoctrine()->getRepository(Product::class)
+                ->findAllBySubCategory($category),
+            $request->query->getInt('page', 1),
+            9
+        );
 
         return $this->render("product/list_by_category.html.twig", [
             "products" => $products,
@@ -76,29 +94,38 @@ class ProductController extends Controller
 
     public function viewLastProductsAction()
     {
-        $products=$this->getDoctrine()->getRepository(Product::class)
+        $products = $this->getDoctrine()->getRepository(Product::class)
             ->findLastProducts(5);
 
-        return $this->render("product/latest_products.html.twig",["products"=>$products]);
+        return $this->render("product/latest_products.html.twig", ["products" => $products]);
     }
 
     /**
-     * @Route("/products/sales", name="view_user_sales")
+     * @Route("/products/sales/", name="view_user_sales")
      * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
      * @Method("GET")
      *
+     * @param Request $request
      * @return Response
      */
 
-    public function viewUserSales()
+    public function viewUserSales(Request $request)
     {
-        $products=$this->getDoctrine()->getRepository(Product::class)
-            ->findUserSales();
+        $pager = $this->get('knp_paginator');
 
-        return $this->render("product/user_sales_products.html.twig", ["products"=>$products]);
+        /** @var ArrayCollection|Product[] $products */
+        $products = $pager->paginate(
+            $this->getDoctrine()->getRepository(Product::class)
+                ->findUserSales(),
+            $request->query->getInt('page', 1),
+            6
+        );
+
+        return $this->render("product/user_sales_products.html.twig", ["products" => $products]);
     }
+
     /**
-     * @Route("/{id}/review", name="product_add_review")
+     * @Route("product/{id}/review", name="product_add_review", requirements={"id"="\d+"})
      * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * @param Product $product
@@ -108,9 +135,9 @@ class ProductController extends Controller
     public function addReviewAction(Product $product, Request $request)
     {
 
-        $productReview=new ProductReview();
+        $productReview = new ProductReview();
 
-        $form=$this->createForm(ProductReviewForm::class,$productReview);
+        $form = $this->createForm(ProductReviewForm::class, $productReview);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -124,7 +151,7 @@ class ProductController extends Controller
             $em->flush();
 
             $this->addFlash("success", "Review added successfully!");
-            return $this->redirectToRoute("view_product",["id"=>$product->getId()]);
+            return $this->redirectToRoute("view_product", ["id" => $product->getId()]);
         }
         return $this->render("product/add_review.html.twig", [
             "form" => $form->createView()

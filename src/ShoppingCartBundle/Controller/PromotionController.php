@@ -2,13 +2,14 @@
 
 namespace ShoppingCartBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\Promotion;
-use ShoppingCartBundle\Service\PromotionService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -38,15 +39,24 @@ class PromotionController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="view_promotion_products")
+     * @Route("/{id}", name="view_promotion_products", requirements={"id"="\d+"})
      * @Method("GET")
-     * @param Promotion $promotion
      *
+     * @param Promotion $promotion
+     * @param Request $request
      * @return Response
      */
-    public function viewPromotionProducts(Promotion $promotion)
+    public function viewPromotionProducts(Promotion $promotion,Request $request)
     {
-        $allProducts = $promotion->getProducts();
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|Product[] $products */
+        $allProducts = $pager->paginate(
+            $promotion->getProducts(),
+            $request->query->getInt('page', 1),
+            9
+        );
+
         return $this->render("promotions/all_products.html.twig", ["products" => $allProducts]);
 
     }

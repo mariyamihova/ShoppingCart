@@ -2,13 +2,14 @@
 
 namespace ShoppingCartBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\SecurityBundle\Tests\Functional\Bundle\AclBundle\Entity\Car;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -24,23 +25,31 @@ class CartController extends Controller
      * @Route("", name="user_cart")
      * @Method("GET")
      *
+     * @param Request $request
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $currentUser = $this->getUser();
         $cartService = $this->get(CartService::class);
-
         $total = $cartService->getProductsTotal($currentUser->getProducts()->toArray());
 
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|Product[] $products */
+        $cartProducts = $pager->paginate(
+            $currentUser->getProducts(),
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render("cart/index.html.twig", [
-            "cart" => $currentUser->getProducts(),
+            "cart" => $cartProducts,
             "total" => $total
         ]);
     }
 
     /**
-     * @Route("/add/{id}", name="user_cart_add")
+     * @Route("/add/{id}", name="user_cart_add", requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param Product $product
@@ -78,8 +87,8 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/checkout/{id}", name="user_cart_checkout")
-     *
+     * @Route("/checkout/{id}", name="user_cart_checkout", requirements={"id"="\d+"})
+     * @Method("POST")
      *
      * @param Product $product
      * @return Response
