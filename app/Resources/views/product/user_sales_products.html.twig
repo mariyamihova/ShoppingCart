@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
-
 {% block main %}
     <div class="row">
-
         <hr>
+        <div class="navigation text-center" >
+            {{ knp_pagination_render(products) }}
+        </div>
         {% if products|length > 0 %}
             {% for product in products %}
                 <div class="col-md-4">
