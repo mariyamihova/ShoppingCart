@@ -42,4 +42,7 @@
         <hr>
         <p>You don't have any orders yet. What are you waiting for? :)</p>
     {% endif %}
+    <div class="navigation text-center" >
+        {{ knp_pagination_render(orders) }}
+    </div>
 {% endblock %}
