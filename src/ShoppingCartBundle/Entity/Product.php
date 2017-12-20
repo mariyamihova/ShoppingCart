@@ -51,13 +51,17 @@ class Product
     private $price;
     /**
      * @var float
+     *
      * @ORM\Column(name="promo_price", type="decimal", precision=10, scale=2)
      */
     private $promotionalPrice;
+
     /**
-     * @ORM\Column(type="datetime")
      * @var \DateTime
+     * @ORM\Column(type="datetime")
+     *
      */
+
     private $updatedAt;
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
@@ -65,15 +69,17 @@ class Product
      */
     private $category;
     /**
+     *  @var string
+     *
      * @ORM\Column(name="image_url", type="text")
      *
-     * @var string
+     *
      */
     private $imageUrl;
     /**
      * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\User", mappedBy="products")
      *
-     * @var ArrayCollection
+     * @var ArrayCollection|User[]
      */
     private $users;
     /**
@@ -92,7 +98,7 @@ class Product
      * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Promotion", inversedBy="products")
      * @ORM\JoinTable(name="product_promotions")
      *
-     * @var ArrayCollection
+     * @var ArrayCollection|Promotion[]
      */
     private $promotions;
 
@@ -219,7 +225,7 @@ class Product
     /**
      * Set lastUpdate
      *
-     * @param \DateTime $lastUpdate
+     * @param \DateTime $updatedAt
      *
      * @return Product
      */
@@ -256,10 +262,10 @@ class Product
     }
 
     /**
-     * @param string $imageName
+     * @param string $imageUrl
      * @return Product
      */
-    public function setImageUrl(string $imageUrl)
+    public function setImageUrl($imageUrl)
     {
         $this->imageUrl = $imageUrl;
         return $this;
@@ -321,7 +327,7 @@ class Product
     /**
      * @param int $priority
      */
-    public function setPriority(int $priority)
+    public function setPriority($priority)
     {
         $this->priority = $priority;
     }
@@ -337,7 +343,7 @@ class Product
      * @param ArrayCollection $promotions
      * @return Product
      */
-    public function setPromotions(ArrayCollection $promotions)
+    public function setPromotions($promotions)
     {
         $this->promotions = $promotions;
         return $this;
@@ -391,7 +397,7 @@ class Product
     /**
      * @param float $promotionalPrice
      */
-    public function setPromotionalPrice(float $promotionalPrice)
+    public function setPromotionalPrice($promotionalPrice)
     {
         $this->promotionalPrice = $promotionalPrice;
     }

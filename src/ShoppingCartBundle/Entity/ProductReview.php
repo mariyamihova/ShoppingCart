@@ -147,7 +147,7 @@ class ProductReview
      * @param User $user
      * @return ProductReview;
      */
-    public function setUser(User $user)
+    public function setUser($user)
     {
         $this->user = $user;
         return $this;
@@ -165,7 +165,7 @@ class ProductReview
      * @param Product $product
      * @return ProductReview;
      */
-    public function setProduct(Product $product)
+    public function setProduct($product)
     {
         $this->product = $product;
         return $this;

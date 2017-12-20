@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="roles")
  * @ORM\Entity(repositoryClass="ShoppingCartBundle\Repository\RoleRepository")
  */
-class Role extends \Symfony\Component\Security\Core\Role\Role
+class Role
 {
     /**
      * @var int
@@ -35,9 +35,8 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
      */
     private $users;
 
-    public function __construct($role)
+    public function __construct()
     {
-        parent::__construct($role);
         $this->users=new ArrayCollection();
     }
 
@@ -84,19 +83,16 @@ class Role extends \Symfony\Component\Security\Core\Role\Role
     }
 
     /**
-     * @param User[] $users
+     * @param ArrayCollection|User[] $users
+     * @return Role
      */
 
-    public function setUsers(array $users)
+    public function setUsers($users)
     {
         $this->users = $users;
         return $this;
     }
 
-    public function getRole()
-    {
-        return $this->name;
-    }
 
     public function __toString()
     {

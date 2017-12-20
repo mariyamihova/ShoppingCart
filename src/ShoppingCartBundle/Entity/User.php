@@ -102,7 +102,7 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="ShoppingCartBundle\Entity\Promotion", inversedBy="users")
      * @ORM\JoinTable(name="user_promotions")
      *
-     * @var ArrayCollection
+     * @var ArrayCollection|Promotion[]
      */
 
     private $promotions;
@@ -228,7 +228,11 @@ class User implements UserInterface
         return $this->money;
     }
 
-
+    /**
+     * Get roles
+     *
+     * @return ArrayCollection|Role[]
+     */
     public function getRoles()
     {
         $stringRoles = [];
@@ -239,7 +243,13 @@ class User implements UserInterface
         }
         return $stringRoles;
     }
-
+    /**
+     * Set roles
+     *
+     * @param ArrayCollection|Role[]
+     *
+     * @return User
+     */
     public function setRoles($roles)
     {
         $this->roles = $roles;
@@ -258,7 +268,7 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        $this->confirm = null;
+        return null;
     }
 
     public function addRole(Role $role)
@@ -291,7 +301,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param @var ArrayCollection| @var ProductOrder[] $orders
+     * @param  ArrayCollection| ProductOrder[] $orders
      */
     public function setOrders($orders)
     {
@@ -310,7 +320,7 @@ class User implements UserInterface
      * @param ArrayCollection $promotions
      * @return User;
      */
-    public function setPromotions(ArrayCollection $promotions)
+    public function setPromotions($promotions)
     {
         $this->promotions = $promotions;
         return $this;
@@ -340,7 +350,6 @@ class User implements UserInterface
     {
         $this->ownedProducts = $ownedProducts;
     }
-
 
 
     public function __toString()

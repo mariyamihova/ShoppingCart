@@ -76,10 +76,7 @@ class Promotion
      */
     private $users;
 
-    /**
-     * Promotion constructor.
-     * @param ArrayCollection|Product[] $products
-     */
+
     public function __construct()
     {
         $this->products = new ArrayCollection();

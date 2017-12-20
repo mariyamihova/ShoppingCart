@@ -178,7 +178,7 @@ class ProductOrder
      * @return ProductOrder
      */
 
-    public function setUser(User $user)
+    public function setUser($user)
     {
         $this->user = $user;
         return $this;
