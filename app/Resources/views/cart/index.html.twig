@@ -62,4 +62,7 @@
         <p>No products in your cart. Don't you want to buy something? :) </p>
     {% endif %}
     </div>
+    <div class="navigation text-center" >
+        {{ knp_pagination_render(cart) }}
+    </div>
 {% endblock %}
