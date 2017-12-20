@@ -11,7 +11,6 @@ namespace ShoppingCartBundle\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use ShoppingCartBundle\Entity\Category;
-use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\Promotion;
 
 interface PromotionServiceInterface

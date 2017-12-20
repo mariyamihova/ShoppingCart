@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use ShoppingCartBundle\Entity\Category;
-use ShoppingCartBundle\Entity\Product;
 use ShoppingCartBundle\Entity\Promotion;
 
 class PromotionService implements PromotionServiceInterface

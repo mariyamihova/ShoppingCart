@@ -98,7 +98,7 @@ class CartService implements CartServiceInterface
      * @param Product[]|ArrayCollection $products
      * @return float
      */
-    public function getProductsTotal($products)
+    public function getProductsTotal(array $products)
     {
 
         $total = 0;
