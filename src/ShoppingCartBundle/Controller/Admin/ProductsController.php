@@ -3,6 +3,7 @@
 namespace ShoppingCartBundle\Controller\Admin;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -26,13 +27,21 @@ class ProductsController extends Controller
      * @Route("/products", name="admin_list_products")
      * @Method("GET")
      *
+     * @param Request $request
      * @return Response
      */
-    public function listProductsAction()
+    public function listProductsAction(Request $request)
     {
+        $pager = $this->get('knp_paginator');
 
-        $products = $this->getDoctrine()->getRepository(Product::class)
-                ->findAll();
+        /** @var ArrayCollection|Product[] $products */
+        $products = $pager->paginate(
+            $this->getDoctrine()->getRepository(Product::class)
+                ->findAll(),
+            $request->query->getInt('page', 1),
+            9
+        );
+
         return $this->render("admin/products/list.html.twig",
             ["products" =>$products]);
     }
@@ -54,6 +63,7 @@ class ProductsController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
 
+
             $product->setUpdatedAt(new \DateTime());
             $product->setPromotionalPrice(0.00);
 
@@ -71,7 +81,7 @@ class ProductsController extends Controller
     }
 
     /**
-     * @Route("/products/edit/{id}", name="admin_edit_product")
+     * @Route("/products/edit/{id}", name="admin_edit_product", requirements={"id"="\d+"})
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -101,7 +111,7 @@ class ProductsController extends Controller
     }
 
     /**
-     * @Route("/products/delete/{id}", name="admin_delete_product")
+     * @Route("/products/delete/{id}", name="admin_delete_product", requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param Product $product

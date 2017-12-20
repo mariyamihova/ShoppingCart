@@ -2,6 +2,7 @@
 
 namespace ShoppingCartBundle\Controller\Admin;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -23,21 +24,28 @@ class OrdersController extends Controller
     /**
      * @Route("", name="admin_list_orders")
      * @Method("GET")
-     *
+     * @param Request $request
      * @return Response
      */
 
-    public function listOrdersAction()
+    public function listOrdersAction(Request $request)
     {
+        $pager = $this->get('knp_paginator');
 
-        $orders = $this->getDoctrine()->getRepository(ProductOrder::class)
-                ->getAllPendingOrders();
+        /** @var ArrayCollection|ProductOrder[] $orders */
+        $orders = $pager->paginate(
+            $this->getDoctrine()->getRepository(ProductOrder::class)
+                ->getAllPendingOrders(),
+            $request->query->getInt('page', 1),
+            9
+        );
+
 
         return $this->render("admin/orders/list.html.twig", ["orders" => $orders]);
     }
 
     /**
-     * @Route("/approve/{id}", name="admin_verify_order")
+     * @Route("/approve/{id}", name="admin_verify_order", requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param ProductOrder $order
@@ -63,7 +71,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="admin_delete_order")
+     * @Route("/delete/{id}", name="admin_delete_order", requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param ProductOrder $order

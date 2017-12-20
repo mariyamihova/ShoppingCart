@@ -2,6 +2,7 @@
 
 namespace ShoppingCartBundle\Controller\Admin;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,13 +25,20 @@ class CategoriesController extends Controller
     /**
      * @Route("/categories", name="admin_view_categories")
      * @Method("GET")
-     *
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function viewAllAction()
+    public function viewAllAction(Request $request)
     {
-        $categories=$this->getDoctrine()->getRepository(Category::class)->findAll();
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|Category[] $categories */
+        $categories = $pager->paginate(
+            $this->getDoctrine()->getRepository(Category::class)->findAll(),
+            $request->query->getInt('page', 1),
+            9
+        );
 
         return $this->render("admin/categories/list.html.twig",["categories"=>$categories]);
     }
@@ -47,7 +55,7 @@ class CategoriesController extends Controller
     {
 
         $category=new Category();
-        $category->setImageName("classical.jpg");
+
 
         $form=$this->createForm(AddEditCategoryForm::class,$category);
         $form->handleRequest($request);
@@ -68,7 +76,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * @Route("/categories/edit/{id}", name="admin_edit_category")
+     * @Route("/categories/edit/{id}", name="admin_edit_category", requirements={"id"="\d+"})
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -99,7 +107,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * @Route("/categories/delete/{id}", name="admin_delete_category")
+     * @Route("/categories/delete/{id}", name="admin_delete_category",requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param Category $category

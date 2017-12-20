@@ -2,6 +2,7 @@
 
 namespace ShoppingCartBundle\Controller\Admin;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,12 +25,21 @@ class UsersController extends Controller
      * @Route("/users", name="admin_list_users")
      * @Method("GET")
      *
+     * @param Request $request
      * @return Response
      */
 
-    public function listUsersAction()
+    public function listUsersAction(Request $request)
     {
-        $users=$this->getDoctrine()->getRepository(User::class)->findAll();
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|User[] $users */
+        $users = $pager->paginate(
+            $this->getDoctrine()->getRepository(User::class)->findAll(),
+            $request->query->getInt('page', 1),
+            9
+        );
+
         return $this->render("admin/users/list.html.twig", ["users"=>$users]);
     }
 
@@ -66,7 +76,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @Route("/users/edit/{id}", name="admin_edit_user")
+     * @Route("/users/edit/{id}", name="admin_edit_user", requirements={"id"="\d+"})
      * @Method({"GET", "POST"})
      *
      * @param User $user
@@ -100,7 +110,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @Route("/users/delete/{id}", name="admin_delete_user")
+     * @Route("/users/delete/{id}", name="admin_delete_user", requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param User $user

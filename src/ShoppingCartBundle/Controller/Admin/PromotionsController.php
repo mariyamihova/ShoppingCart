@@ -2,6 +2,7 @@
 
 namespace ShoppingCartBundle\Controller\Admin;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -30,12 +31,20 @@ class PromotionsController extends Controller
      * @Route("/promotions", name="admin_view_promotions")
      * @Method("GET")
      *
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function viewAllAction()
+    public function viewAllAction(Request $request)
     {
-        $promotions = $this->getDoctrine()->getRepository(Promotion::class)->findAll();
+        $pager = $this->get('knp_paginator');
+
+        /** @var ArrayCollection|Promotion[] $promotions */
+        $promotions = $pager->paginate(
+            $this->getDoctrine()->getRepository(Promotion::class)->findAll(),
+            $request->query->getInt('page', 1),
+            9
+        );
 
         return $this->render("admin/promotions/list.html.twig", ["promotions" => $promotions]);
     }
@@ -52,7 +61,6 @@ class PromotionsController extends Controller
     {
 
         $promotion = new Promotion();
-
 
         $form = $this->createForm(AddEditPromotionType::class, $promotion);
         $form->handleRequest($request);
@@ -72,7 +80,7 @@ class PromotionsController extends Controller
     }
 
     /**
-     * @Route("/promotion/edit/{id}", name="admin_edit_promotion")
+     * @Route("/promotion/edit/{id}", name="admin_edit_promotion", requirements={"id"="\d+"})
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -103,7 +111,7 @@ class PromotionsController extends Controller
     }
 
     /**
-     * @Route("/promotion/delete/{id}", name="admin_delete_promotion")
+     * @Route("/promotion/delete/{id}", name="admin_delete_promotion", requirements={"id"="\d+"})
      * @Method("POST")
      *
      * @param Promotion $promotion
@@ -195,6 +203,7 @@ class PromotionsController extends Controller
         $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
         $form = $this->createForm(PromotionType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $promotion = $form->get("promotion")->getData();
@@ -224,8 +233,10 @@ class PromotionsController extends Controller
     public function deletePromotionFromProductsAction(Request $request)
     {
         $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+
         $form = $this->createForm(PromotionType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $promotion = $form->get("promotion")->getData();
