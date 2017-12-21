@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @package ShoppingCartBundle\Controller
  *
  * @Route("/promotion")
- * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
+ *
  */
 class PromotionController extends Controller
 {

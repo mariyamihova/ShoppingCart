@@ -102,7 +102,6 @@ class ProductController extends Controller
 
     /**
      * @Route("/products/sales/", name="view_user_sales")
-     * @Security(expression="is_granted('IS_AUTHENTICATED_FULLY')")
      * @Method("GET")
      *
      * @param Request $request
