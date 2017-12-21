@@ -65,8 +65,7 @@ class PromotionsController extends Controller
         $form = $this->createForm(AddEditPromotionType::class, $promotion);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($promotion);
             $em->flush();
@@ -94,8 +93,7 @@ class PromotionsController extends Controller
         $form = $this->createForm(AddEditPromotionType::class, $promotion);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($promotion);
@@ -142,8 +140,7 @@ class PromotionsController extends Controller
         $form = $this->createForm(PromotionCategoryForm::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $promotion = $form->get("promotion")->getData();
             $category = $form->get("category")->getData();
 
@@ -172,8 +169,7 @@ class PromotionsController extends Controller
         $form = $this->createForm(PromotionProductType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $promotion = $form->get("promotion")->getData();
             $products = $form->get("product")->getData();
 
@@ -201,11 +197,11 @@ class PromotionsController extends Controller
     public function setPromotionToAllProductsAction(Request $request)
     {
         $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+
         $form = $this->createForm(PromotionType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $promotion = $form->get("promotion")->getData();
 
             $promotionService = $this->get(PromotionService::class);
@@ -232,17 +228,16 @@ class PromotionsController extends Controller
 
     public function deletePromotionFromProductsAction(Request $request)
     {
-        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
 
         $form = $this->createForm(PromotionType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $promotion = $form->get("promotion")->getData();
+            $products = $promotion->getProducts()->toArray();
 
             $promotionService = $this->get(PromotionService::class);
-            $promotionService->removePromotion($promotion,$products);
+            $promotionService->removePromotion($promotion, $products);
 
             $this->addFlash("success", "Promotion was deleted successfully");
             return $this->redirectToRoute("admin_view_promotions");
