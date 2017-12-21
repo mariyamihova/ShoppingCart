@@ -44,7 +44,7 @@ class Product
     private $quantity;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
      */
@@ -201,7 +201,7 @@ class Product
     /**
      * Set price
      *
-     * @param string $price
+     * @param float $price
      *
      * @return Product
      */
@@ -238,7 +238,7 @@ class Product
 
 
     /**
-     * @return mixed
+     * @return Category
      */
     public function getCategory()
     {
@@ -246,7 +246,7 @@ class Product
     }
 
     /**
-     * @param mixed $category
+     * @param Category $category
      */
     public function setCategory($category)
     {
@@ -283,7 +283,7 @@ class Product
      * @param ArrayCollection $users
      * @return Product
      */
-    public function setUsers(ArrayCollection $users)
+    public function setUsers($users)
     {
         $this->users = $users;
         return $this;

@@ -75,7 +75,7 @@ class Role
     }
 
     /**
-     * @return User[]
+     * @return ArrayCollection|User[]
      */
     public function getUsers()
     {

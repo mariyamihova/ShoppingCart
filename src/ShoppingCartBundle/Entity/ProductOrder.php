@@ -123,7 +123,7 @@ class ProductOrder
      *
      * @return ProductOrder
      */
-    public function setProduct(Product $product)
+    public function setProduct($product)
     {
         $this->product = $product;
 
