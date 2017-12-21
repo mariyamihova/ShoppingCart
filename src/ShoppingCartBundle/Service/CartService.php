@@ -94,10 +94,7 @@ class CartService implements CartServiceInterface
         return true;
     }
 
-    /**
-     * @param Product[]|ArrayCollection $products
-     * @return float
-     */
+
     public function getProductsTotal(array $products)
     {
 
